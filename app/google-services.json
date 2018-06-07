@@ -1,31 +1,31 @@
 {
   "project_info": {
-    "project_number": "984140644677",
-    "firebase_url": "https://sendbird-sample.firebaseio.com",
-    "project_id": "sendbird-sample",
-    "storage_bucket": "sendbird-sample.appspot.com"
+    "project_number": "765217741345",
+    "firebase_url": "https://chatapp-36253.firebaseio.com",
+    "project_id": "chatapp-36253",
+    "storage_bucket": "chatapp-36253.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:984140644677:android:abe06d49c04fba23",
+        "mobilesdk_app_id": "1:765217741345:android:abe06d49c04fba23",
         "android_client_info": {
           "package_name": "com.sendbird.android.sample"
         }
       },
       "oauth_client": [
         {
-          "client_id": "984140644677-75b8ti7rnl9ojhu930phht25emuifkki.apps.googleusercontent.com",
+          "client_id": "765217741345-qcf4bed0shnbn0cpdvgj1ii0p3a8nv09.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "984140644677-ajrt7j1g982mntarduj22mlq1dberha0.apps.googleusercontent.com",
+          "client_id": "765217741345-qcf4bed0shnbn0cpdvgj1ii0p3a8nv09.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDxYBEWhz5XUP8twJaGDE249SlEQUfalIc"
+          "current_key": "AIzaSyBvsyXsPWaakNa91p4rM0t5r5aJOtO9BqU"
         }
       ],
       "services": {

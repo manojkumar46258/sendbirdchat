@@ -1,6 +1,8 @@
 package com.sendbird.android.sample.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,8 @@ import com.sendbird.android.sample.R;
 import com.sendbird.android.sample.utils.PreferenceUtils;
 import com.sendbird.android.sample.utils.PushUtils;
 
+import java.util.Collections;
+
 public class LoginActivity extends AppCompatActivity {
 
     private CoordinatorLayout mLoginLayout;
@@ -28,8 +32,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
 
         setContentView(R.layout.activity_login);
 

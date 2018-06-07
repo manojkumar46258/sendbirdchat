@@ -2,6 +2,7 @@ package com.sendbird.android.sample.main;
 
 import android.content.Context;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
@@ -16,6 +17,18 @@ public class ConnectionManager {
                 if (handler != null) {
                     handler.onConnected(user, e);
                 }
+                if (FirebaseInstanceId.getInstance().getToken() == null) return;
+
+                SendBird.registerPushTokenForCurrentUser(FirebaseInstanceId.getInstance().getToken(),
+                        new SendBird.RegisterPushTokenWithStatusHandler() {
+                            @Override
+                            public void onRegistered(SendBird.PushTokenRegistrationStatus status, SendBirdException e) {
+                                if (e != null) {
+                                    // Error.
+                                    return;
+                                }
+                            }
+                        });
             }
         });
     }

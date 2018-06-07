@@ -35,7 +35,14 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.sendbird.android.sample.R;
 import com.sendbird.android.sample.groupchannel.GroupChannelActivity;
 import com.sendbird.android.sample.utils.PreferenceUtils;
-
+import com.sendbird.android.shadow.com.google.gson.JsonElement;
+import com.sendbird.android.shadow.com.google.gson.JsonParser;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,9 +53,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
      *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
-    // [START receive_message]
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // [START_EXCLUDE]
@@ -61,13 +67,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
+        //String message = remoteMessage.getData().get("message");
+        //JsonElement payload = new JsonParser().parse(remoteMessage.getData().get("sendbird"));
+
+
+
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
+
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+
         }
 
         // Check if message contains a notification payload.
@@ -100,6 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final String CHANNEL_ID = "CHANNEL_ID";
         if (Build.VERSION.SDK_INT >= 26) {  // Build.VERSION_CODES.O
             NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, "CHANNEL_NAME", NotificationManager.IMPORTANCE_HIGH);
+            assert notificationManager != null;
             notificationManager.createNotificationChannel(mChannel);
         }
 
@@ -109,23 +124,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.img_notification)
-                .setColor(Color.parseColor("#7469C4"))  // small icon background color
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.img_notification_large))
-                .setContentTitle(context.getResources().getString(R.string.app_name))
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pendingIntent);
+        NotificationCompat.Builder notificationBuilder = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.img_notification)
+                    .setColor(Color.parseColor("#7469C4"))  // small icon background color
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.img_notification_large))
+                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(Notification.PRIORITY_MAX)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentIntent(pendingIntent);
+        }
 
         if (PreferenceUtils.getNotificationsShowPreviews()) {
+            assert notificationBuilder != null;
             notificationBuilder.setContentText(messageBody);
         } else {
+            assert notificationBuilder != null;
             notificationBuilder.setContentText("Somebody sent you a message.");
         }
 
+        assert notificationManager != null;
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
 }
